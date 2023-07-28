@@ -1,13 +1,19 @@
 # hybridIQA
 An alternative aesthetic scorer based on hyperIQA
 
-This scorer is intended primary to score anime AI-gen images. 
+This scorer is intended primarily to score/sort anime AI-gen images. 
 
-Uses custom "hybrid" dataset and as such efficacy is questionable...
+Modified ImageReward branch here for benchmark: 
+
+Uses custom "hybrid" dataset and as such efficacy is questionable... only 50% accuracy on ImageReward Figure 3 test, though CLIP is also only 54%...
+
+(good for mini 1263 image dataset comprised of fully anime images on realistic gen test) 
+
+![image](https://github.com/SatellaSatella/hybridIQA/assets/140206058/8d2d12d9-0b01-45a0-896c-5fa1127becda)
 
 ## Dataset methodology:
 
-Total dataset size: 1444 images
+Total dataset size: 1263 images
 
 ------------------------------------------------------------------------------------------------------
 
@@ -23,8 +29,6 @@ Binned into "Artifact" and "Perfect" folders, then each folder is further binned
 
 ------------------------------------------------------------------------------------------------------
 
-"0" folder bins are generated with schizo negative prompt as positive prompt.
-
 "8" folder bins are cherry-picked generations (not from the mass-produced image pool).
 
 9" folder bins are real images from maccha and omutatsu.
@@ -33,15 +37,17 @@ Binned into "Artifact" and "Perfect" folders, then each folder is further binned
 
 Dataloader changed to be suitable for dataset structure (also caches images as tensor on GPU for speed rather than rereading all images on request).
 
-Optimizer swapped from Adam to Lion with LR/3, weight decay*3, and beta adjusted accordingly.
+Optimizer (partial) swap Adam to Lion with LR/3, weight decay*3, and beta adjusted accordingly.
 
-Resnet50 backbone swapped for Resnet152.
+Resnet50 backbone replaced with Resnet152.
+
+Some minor fixes to code.
 
 ### Transforms:
 
 Patches per image increased 16x, from 25 to 400.
 
-20% random images converted to grayscale to remove color bias.
+15% random images converted to grayscale to remove color bias.
 
 RandomCrop replaced with RandomResizeCrop with bilinear interpolation & antialiasing (training only).
 
